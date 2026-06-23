@@ -150,6 +150,7 @@ public:
                 book.loadFromFile("contacts.txt");
                 break;
             case 0:
+                book.saveToFile("contacts.txt");
                 cout << "До свидания!" << endl;
                 running = false;
                 break;
