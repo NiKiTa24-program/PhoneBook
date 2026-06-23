@@ -38,7 +38,7 @@ public:
             cout << "Контакт " << name << " удалён" << endl;
         }
         else {
-            cout << "Контакт " << name << " не найден" << endl;;
+            cout << "Контакт " << name << " не найден" << endl;
         }
     }
 
@@ -48,13 +48,13 @@ public:
             it->second.display();
         }
         else {
-            cout << "Контакт " << name << " не найден" << endl;;
+            cout << "Контакт " << name << " не найден" << endl;
         }
     }
 
     void displayAll() const {
         if (contacts.empty()) {
-            cout << "Телефонная книга пуста" << endl;;
+            cout << "Телефонная книга пуста" << endl;
             return;
         }
         for (const auto& pair : contacts) {
@@ -95,7 +95,48 @@ public:
 };
 
 class Menu {
-
+public:
+    void run() {
+        bool running = true;
+        int count;
+        cout << "Добро пожаловать в телефонный справочник!" << endl;
+        while (running) {
+            cout << "Выберите действия, написав нужное число" << endl;
+            cout << "1, если хотите добавить контакт в справочник" << endl;
+            cout << "2, если хотите удалить контакт из справочника" << endl;
+            cout << "3, если хотите найти контакт из справочника" << endl;
+            cout << "4, если хотите вывести все контакты из справочника" << endl;
+            cout << "5, если хотите загрузить контакты в файл" << endl;
+            cout << "6, если хотите загрузить контакты из файла" << endl;
+            cout << "7, если хотите завершить работу" << endl;
+            cin >> count;
+            switch (count) {
+            case 1:
+                addContact();
+                break;
+            case 2:
+                removeContact();
+                break;
+            case 3:
+                findContact();
+                break;
+            case 4:
+                displayAll();
+                break;
+            case  5:
+                saveToFile();
+                break;
+            case 6:
+                loadToFile();
+                break;
+            case 7:
+                return -1;
+            default:
+                cout << "Неизвестная команда!" << endl;
+                return -1;
+            }
+        }
+    }
 };
 
 int main() {
@@ -106,8 +147,8 @@ int main() {
     Contact c1("Анна", "89171234567");
     Contact c2("Борис", "89271234567");
 
-    c1.display();
     c2.display();
+    c1.display();
     
     // Добавляем
     book.addContact(Contact("Анна", "89171234567"));
