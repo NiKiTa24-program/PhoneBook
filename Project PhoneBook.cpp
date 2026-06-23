@@ -96,44 +96,65 @@ public:
 
 class Menu {
 public:
-    void run() {
+    void run(PhoneBook& book) {
+        int choice;
         bool running = true;
-        int count;
+
         cout << "Добро пожаловать в телефонный справочник!" << endl;
+
         while (running) {
-            cout << "Выберите действия, написав нужное число" << endl;
-            cout << "1, если хотите добавить контакт в справочник" << endl;
-            cout << "2, если хотите удалить контакт из справочника" << endl;
-            cout << "3, если хотите найти контакт из справочника" << endl;
-            cout << "4, если хотите вывести все контакты из справочника" << endl;
-            cout << "5, если хотите загрузить контакты в файл" << endl;
-            cout << "6, если хотите загрузить контакты из файла" << endl;
-            cout << "7, если хотите завершить работу" << endl;
-            cin >> count;
-            switch (count) {
-            case 1:
-                addContact();
+            cout << "\nВыберите действие:" << endl;
+            cout << "1. Добавить контакт" << endl;
+            cout << "2. Удалить контакт" << endl;
+            cout << "3. Найти контакт" << endl;
+            cout << "4. Показать все контакты" << endl;
+            cout << "5. Сохранить в файл" << endl;
+            cout << "6. Загрузить из файла" << endl;
+            cout << "0. Выход" << endl;
+            cout << "Ваш выбор: ";
+
+            cin >> choice;
+
+            switch (choice) {
+            case 1: {
+                string name, phone;
+                cout << "Введите имя: ";
+                cin >> name;
+                cout << "Введите телефон: ";
+                cin >> phone;
+                book.addContact(Contact(name, phone));
+                cout << "Контакт добавлен!" << endl;
                 break;
-            case 2:
-                removeContact();
+            }
+            case 2: {
+                string name;
+                cout << "Введите имя для удаления: ";
+                cin >> name;
+                book.removeContact(name);
                 break;
-            case 3:
-                findContact();
+            }
+            case 3: {
+                string name;
+                cout << "Введите имя для поиска: ";
+                cin >> name;
+                book.findContact(name);
                 break;
+            }
             case 4:
-                displayAll();
+                book.displayAll();
                 break;
-            case  5:
-                saveToFile();
+            case 5:
+                book.saveToFile("contacts.txt");
                 break;
             case 6:
-                loadToFile();
+                book.loadFromFile("contacts.txt");
                 break;
-            case 7:
-                return -1;
+            case 0:
+                cout << "До свидания!" << endl;
+                running = false;
+                break;
             default:
-                cout << "Неизвестная команда!" << endl;
-                return -1;
+                cout << "Неверный выбор! Попробуйте снова." << endl;
             }
         }
     }
@@ -143,25 +164,13 @@ int main() {
     setlocale(LC_ALL, "RU");
 
     PhoneBook book;
+    Menu menu;
 
-    Contact c1("Анна", "89171234567");
-    Contact c2("Борис", "89271234567");
-
-    c2.display();
-    c1.display();
-    
-    // Добавляем
-    book.addContact(Contact("Анна", "89171234567"));
-    book.addContact(Contact("Борис", "89271234567"));
-
-    // Сохраняем
-    book.saveToFile("contacts.txt");
-
-    // Загружаем
+    // Загружаем контакты при старте
     book.loadFromFile("contacts.txt");
 
-    // Выводим
-    book.displayAll();
+    // Запускаем меню
+    menu.run(book);
 
     return 0;
 }
