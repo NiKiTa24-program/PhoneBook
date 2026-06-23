@@ -69,7 +69,7 @@ public:
         }
         for (const auto& pair : contacts) {
             file << pair.first << ": " << pair.second.getPhone() << endl;
-            cout << "Контакты успешно сохрнались в файле " << filename << endl;
+            cout << "Контакты успешно сохранились в файле " << filename << endl;
         }
         file.close();
     }
