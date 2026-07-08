@@ -62,6 +62,54 @@ public:
         }
     }
 
+    void changeContact(const string& name) {
+        auto it = contacts.find(name);
+        if (it == contacts.end()) {
+            cout << "Контакт для изменения не найден!" << endl;
+            return;
+        }
+
+        int choice;
+        cout << "Выберите, что вы хотите изменить:" << endl;
+        cout << "1 - имя" << endl;
+        cout << "2 - телефон" << endl;
+        cin >> choice;
+
+        if (choice == 1) {
+            string newName;
+            cout << "Введите новое имя: ";
+            cin >> newName;
+            string phone = it->second.getPhone();
+            contacts.erase(it);
+            contacts[newName] = Contact(newName, phone);
+            cout << "Имя изменено!" << endl;
+
+        }
+        else if (choice == 2) {
+            string newPhone;
+            cout << "Введите новый телефон: ";
+            cin >> newPhone;
+            it->second.changePhone(newPhone);
+            cout << "Телефон изменён!" << endl;
+        }
+        else {
+            cout << "Неверный выбор!" << endl;
+        }
+    }
+
+    void findPartial(const string& partial) const {
+        bool found = false;
+        for (const auto& pair : contacts) {
+            if (pair.first.find(partial) != string::npos) {
+                pair.second.display();
+                found = true;
+            }
+        }
+        if (!found) {
+            cout << "Контактов с таким фрагментом не найдено" << endl;
+        }
+    }
+
     void saveToFile(const string& filename) {
         ofstream file(filename);
         if (!file.is_open()) {
@@ -110,6 +158,7 @@ public:
             cout << "4. Показать все контакты" << endl;
             cout << "5. Сохранить в файл" << endl;
             cout << "6. Загрузить из файла" << endl;
+            cout << "7. Найти по части имени" << endl;
             cout << "0. Выход" << endl;
             cout << "Ваш выбор: ";
 
@@ -149,6 +198,13 @@ public:
             case 6:
                 book.loadFromFile("contacts.txt");
                 break;
+            case 7: {
+                string partial;
+                cout << "Введите часть имени: ";
+                cin >> partial;
+                book.findPartial(partial);
+                break;
+            }
             case 0:
                 book.saveToFile("contacts.txt");
                 cout << "До свидания!" << endl;
